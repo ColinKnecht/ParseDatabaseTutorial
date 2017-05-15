@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.Button;
 import android.widget.TextView;
 import android.app.ProgressDialog;
+import android.widget.Toast;
 
 import com.parse.Parse;
 import com.parse.ParseUser;
@@ -20,6 +21,8 @@ import org.w3c.dom.Text;
 public class MainActivity extends AppCompatActivity {
 
     private final String TAG = "MainActivity";
+    String userName;
+    String passWord;
 
     EditText etUserName;
     EditText etPassword;
@@ -36,6 +39,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Parse.initialize(new Parse.Configuration.Builder(this)
+                .applicationId("hk09tKoPysUEoTuZcF0itTXzfIUGweqq7RxQEMbR")
+                .clientKey("qY8zQn0mEuesl3eXsP6zfJNN9WgdajCZiS4xUxyb")
+                .server("https://parseapi.back4app.com/").build()
+        );
 
         etUserName = (EditText) findViewById(R.id.editTextUsername);
         etPassword = (EditText) findViewById(R.id.editTextPassword);
@@ -51,17 +59,24 @@ public class MainActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParseUser.logInInBackground("Username", "Password", new LogInCallback() {
+                userName = etUserName.getText().toString();
+                passWord = etPassword.getText().toString();
+
+                ParseUser.logInInBackground(userName, passWord, new LogInCallback() {
                     @Override
                     public void done(ParseUser user, com.parse.ParseException e) {
                         if (user != null) {
                             //Login Successful
                             //you can display sth or do sth
                             //For example Welcome + ParseUser.getUsername()
+                            Toast.makeText(getApplicationContext(), "Has Joined", Toast.LENGTH_SHORT).show();
 
                         } else {
                             //Login Fail
                             //get error by calling e.getMessage()
+                            Toast.makeText(getApplicationContext(), "User Does Not Exist", Toast.LENGTH_SHORT).show();
+                            Log.e(TAG, "Login Button - onClick done: Login Fail ");
+                            e.getMessage();
                         }
                     }
 
@@ -72,22 +87,30 @@ public class MainActivity extends AppCompatActivity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParseUser user = new ParseUser();
-                user.setUsername(etUserName.getText().toString());
-                user.setPassword(etPassword.getText().toString());
-                user.signUpInBackground(new SignUpCallback() {
-                    @Override
-                    public void done(com.parse.ParseException e) {
-                        if (e == null) {
-                            //Register Successful
-                            //you can display sth or do sth
-                        } else {
-                            //Register Fail
-                            //get error by calling e.getMessage()
+                userName = etUserName.getText().toString();
+                passWord = etPassword.getText().toString();
+
+                if (userName.equals("") || passWord.equals("")) {
+                    Toast.makeText(getApplicationContext(), "Please Enter Username and Password", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    ParseUser user = new ParseUser();
+                    user.setUsername(userName);
+                    user.setPassword(passWord);
+                    user.signUpInBackground(new SignUpCallback() {
+                        @Override
+                        public void done(com.parse.ParseException e) {
+                            if (e == null) {
+                                Toast.makeText(getApplicationContext(), "User Registered", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                Toast.makeText(getApplicationContext(), "User Has Already Registered", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
-            }
+                    });
+                }
+
+            }//onClick
         });
 
     }//OnCreate

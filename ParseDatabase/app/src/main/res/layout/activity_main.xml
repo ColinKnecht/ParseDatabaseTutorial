@@ -10,22 +10,20 @@
         android:id="@+id/editTextUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
         app:layout_constraintBaseline_toBaselineOf="@+id/textViewUserName"
-        android:layout_marginRight="16dp"
         app:layout_constraintRight_toRightOf="parent" />
 
     <EditText
         android:id="@+id/editTextPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
         app:layout_constraintBaseline_toBaselineOf="@+id/textViewPassword"
-        android:layout_marginRight="16dp"
         app:layout_constraintRight_toRightOf="parent" />
 
     <TextView
