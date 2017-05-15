@@ -105,6 +105,8 @@ public class MainActivity extends AppCompatActivity {
                             }
                             else {
                                 Toast.makeText(getApplicationContext(), "User Has Already Registered", Toast.LENGTH_SHORT).show();
+                                Log.e(TAG, "Register - done: User Already Registered");
+                                e.printStackTrace();
                             }
                         }
                     });
