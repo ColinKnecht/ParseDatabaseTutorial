@@ -46,20 +46,12 @@ public class MainActivity extends AppCompatActivity {
         tvUserName = (TextView) findViewById(R.id.textViewUserName);
         tvPassword = (TextView) findViewById(R.id.textViewPassword);
 
-        progressDialog = new ProgressDialog(MainActivity.this);
-
-
-        Parse.initialize(new Parse.Configuration.Builder(this)
-                .applicationId("MP6H592QYgcXg3SwdqFO1BAUtQz1ukNFSAuKDR2n")
-                .clientKey("iL0IbxexpJFKh4Kx3aym8o6fbHrOWxeLGy1vmT7L")
-                .server("https://parseapi.back4app.com/").build()
-        );
+        ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ParseUser.logInInBackground("Username", "Password", new LogInCallback() {
-
                     @Override
                     public void done(ParseUser user, com.parse.ParseException e) {
                         if (user != null) {
@@ -70,8 +62,6 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             //Login Fail
                             //get error by calling e.getMessage()
-                            Log.e(TAG, "buttonLogin - done: Login Fail");
-                            e.getMessage();
                         }
                     }
 
@@ -94,37 +84,11 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             //Register Fail
                             //get error by calling e.getMessage()
-                            Log.e(TAG, "buttonRegister - done: Register Fail");
-                            e.getMessage();
                         }
                     }
                 });
             }
         });
-
-//        void parseLogin() {
-//            ParseUser.logInInBackground(etUserName.getText().toString(), etPassword.getText().toString(), new LogInCallback() {
-//                @Override
-//                public void done(ParseUser parseUser, com.parse.ParseException e) {
-//                    if (parseUser != null) {
-//                        progressDialog.dismiss();
-//                        //getUserDetailFromParse();
-//                    } else {
-//                        progressDialog.dismiss();
-//                        Log.e(TAG, "parseLogin - done: LoginIn Fail");
-//                        //alertDisplayer("Login Fail", e.getMessage()+" Please re-try");
-//                    }
-//                }
-//            });
-//        }//parseLogin
-
-//        void getUserDetailFromParse(){
-//        ParseUser user = ParseUser.getCurrentUser();
-//        tvUserName.setText(user.getUsername());
-//        //t_email.setText(user.getEmail());
-//        //alertDisplayer("Welcome Back", "User:" + tvUserName.getText().toString());
-//
-//        }//getUserDetailFromParse
 
     }//OnCreate
 
