@@ -1,5 +1,6 @@
 package com.colinknecht.parsedatabase;
 
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.app.ProgressDialog;
 import android.widget.Toast;
+import android.content.DialogInterface;
 
 import com.parse.Parse;
 import com.parse.ParseUser;
@@ -115,7 +117,37 @@ public class MainActivity extends AppCompatActivity {
             }//onClick
         });//btnRegister
 
-    }//OnCreate
+        void parseLogin() {
+            ParseUser.logInInBackground(etUserName.getText().toString(), etPassword.getText().toString(), new LogInCallback() {
+                @Override
+                public void done(ParseUser parseUser, com.parse.ParseException e) {
+                    if (parseUser != null) {
+                        progressDialog.dismiss();
+                        alertDisplayer("Login Successful","Welcome "+parseUser.getUsername());
+                    }
+                    else {
+                        progressDialog.dismiss();
+                        alertDisplayer("Login Failed", e.getMessage()+" Please Try Again");
+                    }
+                }//done
+            });//loginBackground
+        }//parseLogin
+
+        void alertDisplayer(String title,String message) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this)
+                    .setTitle(title)
+                    .setMessage(message)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+            AlertDialog ok = builder.create();
+            ok.show();
+        }//alertDisplayer
+
+    }///////////////////////////////////////////OnCreate
 
 
 }//MainActivity
